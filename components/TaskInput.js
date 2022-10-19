@@ -6,14 +6,12 @@ function TaskInput(props)
 {
   const [input, setInput] = useState('');
 
-  function onChangeInput(text)
-  {
-    setInput(text);
-  }
+  const onChangeInput = text => setInput(text);
+  
     return (
         <View style={styles.inputContainer}>
-          <TextInput onChangeText={onChangeInput} placeholder='New Task'></TextInput>
-          <Button onPress={props.onAddTodo.bind(this, input)} title='Add'/>
+          <TextInput style={styles.textInput} onChangeText={onChangeInput} placeholder='New Task'></TextInput>
+          <Button onPress={props.onAddTask.bind(this, input)} title='Add'/>
       </View>
     );
 }
@@ -21,13 +19,18 @@ function TaskInput(props)
 export default TaskInput;
 
 const styles = StyleSheet.create({
-    inputContainer: {
-        width : '80%',
+    inputContainer: {   
         padding : 20,
         marginHorizontal : 25,
         borderBottomWidth : 1,
         borderBottomColor : "red",
         flexDirection : 'row',
         justifyContent : 'space-between'
+      },
+      textInput: {
+        borderWidth : 1,
+        borderColor : '#cccccc',
+        width: '70%',
+        padding: 8
       }
 });

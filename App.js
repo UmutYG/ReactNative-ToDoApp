@@ -1,49 +1,36 @@
-import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, View } from "react-native";
+import Task from "./components/Task";
 import TaskInput from "./components/TaskInput";
-
+import TaskList from "./components/TaskList";
 export default function App() {
-  const [todoList, setTodoList] = useState([]);
+  const [taskList, setTaskList] = useState([]);
 
-  function addTodoHandler(todo) {
-    setTodoList((currentTodoList) =>
-     [...currentTodoList,
-      {text : todo, id: Math.random().toString()}
+  function addTaskHandler(task) {
+    setTaskList((currentTaskList) => [
+      ...currentTaskList,
+      { text: task, id: Math.random().toString() },
     ]);
+  }
+
+  function deleteTaskHandler(id) {
+    setTaskList((currentTaskList) =>
+      currentTaskList.filter((task) => task.id !== id)
+    );
   }
 
   return (
     <View style={styles.container}>
-      <TaskInput onAddTodo={addTodoHandler} />
-      <FlatList
-        data={todoList}
-        renderItem={(itemData) => {
-          return(
-          // Framing with views to have border-radius on both IOS-Android
-          <View style={styles.todo}>
-            <Text style={styles.todoText}>{itemData.item.text}</Text>
-          </View>
-          )}}
-          keyExtractor={(item, index) => {
-            return item.id;
-          }}
-      />
+      <TaskInput onAddTask={addTaskHandler} />
+      <TaskList taskList={taskList} onDelete={deleteTaskHandler} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     marginTop: 30,
-  },
-  todo: {
-    backgroundColor: "#5e0acc",
-    margin: 8,
-    padding: 8,
-    borderRadius: 8,
-  },
-  todoText: {
-    color: "white",
+    flexDirection: "column",
   },
 });
